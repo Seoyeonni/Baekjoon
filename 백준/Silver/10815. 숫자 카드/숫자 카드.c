@@ -22,7 +22,7 @@ int main()
 	sort(n_arr, n_arr + n);
 
 	for (i = 0; i < m; i++) {
-		cout << binary_search(n, m_arr[i]) << " ";
+		cout << binary_search(n_arr, n_arr + n, m_arr[i]) << " ";
 	}
 	cout << "\n";
 
