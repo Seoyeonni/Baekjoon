@@ -1,12 +1,11 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class Main {
 	static int k;
-	static LinkedList<LinkedList<Integer>> gearList;
+	static int[][] gears;
 	static int[][] rotation;
 
 	public static void main(String[] args) throws IOException {
@@ -14,16 +13,12 @@ public class Main {
 
 		StringTokenizer st;
 
-		gearList = new LinkedList<>();
+		gears = new int[4][8];
 		for (int i = 0; i < 4; i++) {
-			LinkedList<Integer> gear = new LinkedList<>();
-
 			String poles = br.readLine();
 			for (int j = 0; j < 8; j++) {
-				int digit = poles.charAt(j) - '0';
-				gear.add(digit);
+				gears[i][j] = poles.charAt(j) - '0';
 			}
-			gearList.add(gear);
 		}
 
 		k = Integer.parseInt(br.readLine());
@@ -42,18 +37,17 @@ public class Main {
 		for (int i = 0; i < k; i++) {
 			int idx = rotation[i][0];
 			int direction = rotation[i][1];
-			LinkedList<Integer> gear = gearList.get(idx);
 
-			leftGearRotate(gear, direction, idx);
-			rightGearRotate(gear, direction, idx);
+			leftGearRotate(idx, direction);
+			rightGearRotate(idx, direction);
 
-			rotate(gear, direction);
+			rotate(gears[idx], direction);
 		}
 
 		int score = 0;
 		for (int i = 0; i < 4; i++) {
 			// S극이면
-			if (gearList.get(i).get(0) == 1) {
+			if (gears[i][0] == 1) {
 				score += Math.pow(2, i);
 			}
 		}
@@ -61,50 +55,52 @@ public class Main {
 		return score;
 	} // end of calcScore()
 
-	static void leftGearRotate(LinkedList<Integer> gear, int direction, int idx) {
+	static void leftGearRotate(int idx, int direction) {
 		// 제일 왼쪽 톱니바퀴라면
 		if (idx == 0) {
 			return;
 		}
 
-		LinkedList<Integer> leftGear = gearList.get(idx - 1);
+		int[] leftGear = gears[idx - 1];
 
 		// 다른 극이면
-		if (gear.get(6) != leftGear.get(2)) {
-			direction = direction * -1;
-			leftGearRotate(leftGear, direction, idx - 1);
-			rotate(leftGear, direction);
+		if (gears[idx][6] != leftGear[2]) {
+			leftGearRotate(idx - 1, direction * -1);
+			rotate(leftGear, direction * -1);
 		}
 	} // end of leftGearRotate()
 
-	static void rightGearRotate(LinkedList<Integer> gear, int direction, int idx) {
+	static void rightGearRotate(int idx, int direction) {
 		// 제일 오른쪽 톱니바퀴라면
 		if (idx == 3) {
 			return;
 		}
 
-		LinkedList<Integer> rightGear = gearList.get(idx + 1);
+		int[] rightGear = gears[idx + 1];
 
 		// 다른 극이면
-		if (gear.get(2) != rightGear.get(6)) {
-			direction = direction * -1;
-			rightGearRotate(rightGear, direction, idx + 1);
-			rotate(rightGear, direction);
+		if (gears[idx][2] != rightGear[6]) {
+			rightGearRotate(idx + 1, direction * -1);
+			rotate(rightGear, direction * -1);
 		}
 	} // end of rightGearRotate()
 
-	static void rotate(LinkedList<Integer> gear, int direction) {
+	static void rotate(int[] gear, int direction) {
 		// 시계 방향
 		if (direction == 1) {
-			int pole = gear.get(7);
-			gear.removeLast();
-			gear.addFirst(pole);
+			int last = gear[7];
+			for (int i = 7; i > 0; i--) {
+				gear[i] = gear[i - 1];
+			}
+			gear[0] = last;
 		}
 		// 반시계 방향
 		else {
-			int pole = gear.get(0);
-			gear.remove();
-			gear.addLast(pole);
+			int first = gear[0];
+			for (int i = 0; i < 7; i++) {
+				gear[i] = gear[i + 1];
+			}
+			gear[7] = first;
 		}
 	} // end of rotate()
 } // end of Main
