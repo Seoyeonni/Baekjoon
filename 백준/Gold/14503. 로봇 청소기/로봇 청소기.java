@@ -8,6 +8,8 @@ public class Main {
 	static int M;
 	static int[][] map;
 	static int count = 0;
+	static int[] dr = { -1, 0, 1, 0 };
+	static int[] dc = { 0, 1, 0, -1 };
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -31,117 +33,38 @@ public class Main {
 			}
 		}
 
-		move(r, c, d, 0);
+		move(r, c, d);
+
+		System.out.println(count);
 	} // end of main()
 
-	static void move(int r, int c, int d, int turn) {
+	static void move(int r, int c, int d) {
 		// 청소되지 않은 빈 칸이라면
 		if (map[r][c] == 0) {
 			map[r][c] = 2; // 청소된 방은 2로 표시
 			count++;
 		}
 
-		switch (d) {
-		case 0: { // 북 -> 서
-			// 회전 후 앞에있는 칸이
-			// 청소되지 않은 빈 칸이라면
-			if (map[r][c - 1] == 0) {
-				move(r, c - 1, 3, 0);
-			}
-			// 청소된 빈 칸이거나 벽이라면
-			else {
-				// 주변 4칸 중 청소되지 않은 빈 칸이 없다면
-				if (turn == 4) {
-					// 후진할 수 있다면
-					if (map[r + 1][c] == 2) {
-						move(r + 1, c, d, 0);
-					}
-					// 후진할 수 없다면
-					else {
-						System.out.println(count);
-						System.exit(0); // 시스템 종료
-					}
-				}
+		for (int i = 0; i < 4; i++) {
+			// 반시계 방향으로 회전
+			d = (d + 3) % 4;
 
-				turn++;
-				move(r, c, 3, turn);
+			// 앞에 있는 칸이 청소되지 않은 빈칸이라면
+			if (map[r + dr[d]][c + dc[d]] == 0) {
+				move(r + dr[d], c + dc[d], d);
+				return;
 			}
 		}
-		case 1: { // 동 -> 북
-			// 회전 후 앞에있는 칸이
-			// 청소되지 않은 빈 칸이라면
-			if (map[r - 1][c] == 0) {
-				move(r - 1, c, 0, 0);
-			}
-			// 청소된 빈 칸이거나 벽이라면
-			else {
-				// 주변 4칸 중 청소되지 않은 빈 칸이 없다면
-				if (turn == 4) {
-					// 후진할 수 있다면
-					if (map[r][c - 1] == 2) {
-						move(r, c - 1, d, 0);
-					}
-					// 후진할 수 없다면
-					else {
-						System.out.println(count);
-						System.exit(0); // 시스템 종료
-					}
-				}
+		
+		// 주변 4칸 중 청소되지 않은 빈 칸이 없다면 후진
+		int back = (d + 2) % 4;
+		if (map[r + dr[back]][c + dc[back]] != 1) {
+		    move(r + dr[back], c + dc[back], d); // 후진하면서 방향은 그대로 유지
+		}
+		// 후진한 곳이 벽이라면
+		else {
+		    return;
+		}
 
-				turn++;
-				move(r, c, 0, turn);
-			}
-		}
-		case 2: { // 남 -> 동
-			// 회전 후 앞에있는 칸이
-			// 청소되지 않은 빈 칸이라면
-			if (map[r][c + 1] == 0) {
-				move(r, c + 1, 1, 0);
-			}
-			// 청소된 빈 칸이거나 벽이라면
-			else {
-				// 주변 4칸 중 청소되지 않은 빈 칸이 없다면
-				if (turn == 4) {
-					// 후진할 수 있다면
-					if (map[r - 1][c] == 2) {
-						move(r - 1, c, d, 0);
-					}
-					// 후진할 수 없다면
-					else {
-						System.out.println(count);
-						System.exit(0); // 시스템 종료
-					}
-				}
-
-				turn++;
-				move(r, c, 1, turn);
-			}
-		}
-		case 3: { // 서 -> 남
-			// 회전 후 앞에있는 칸이
-			// 청소되지 않은 빈 칸이라면
-			if (map[r + 1][c] == 0) {
-				move(r + 1, c, 2, 0);
-			}
-			// 청소된 빈 칸이거나 벽이라면
-			else {
-				// 주변 4칸 중 청소되지 않은 빈 칸이 없다면
-				if (turn == 4) {
-					// 후진할 수 있다면
-					if (map[r][c + 1] == 2) {
-						move(r, c + 1, d, 0);
-					}
-					// 후진할 수 없다면
-					else {
-						System.out.println(count);
-						System.exit(0); // 시스템 종료
-					}
-				}
-
-				turn++;
-				move(r, c, 2, turn);
-			}
-		}
-		}
-	}
+	} // end of move
 } // end of Main
