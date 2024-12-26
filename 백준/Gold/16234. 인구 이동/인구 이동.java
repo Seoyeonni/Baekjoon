@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -13,7 +13,7 @@ public class Main {
 	static int day = 0;
 	static int[] dr = { -1, 0, 1, 0 };
 	static int[] dc = { 0, 1, 0, -1 };
-	static ArrayList<int[]> association;
+	static LinkedList<int[]> association;
 	static int sum;
 
 	public static void main(String[] args) throws IOException {
@@ -40,14 +40,14 @@ public class Main {
 	} // end of Main()
 
 	static void run() {
-		visited = new boolean[N][N];
+		visited = new boolean[N][N]; // 전체 연합국 초기화
 
 		boolean isMove = false;
 		for (int r = 0; r < N; r++) {
 			for (int c = 0; c < N; c++) {
 				// 아직 연합하지 않은 나라라면
 				if (!visited[r][c]) {
-					association = new ArrayList<>();
+					association = new LinkedList<>(); // 연합국 저장 배열 초기화
 					association.add(new int[] { r, c });
 					
 					visited[r][c] = true;
@@ -75,7 +75,7 @@ public class Main {
 		else {
 			return;
 		}
-	}
+	} // end of run()
 
 	static void associate(int r, int c) {
 		for (int d = 0; d < 4; d++) {
@@ -93,7 +93,7 @@ public class Main {
 				}
 			}
 		}
-	}
+	} // end of associate()
 
 	static void move() {
 		int num = sum / association.size();
@@ -101,6 +101,6 @@ public class Main {
 		for (int[] country : association) {
 			population[country[0]][country[1]] = num;
 		}
-	}
+	} // end of move()
 
 } // end of Main
