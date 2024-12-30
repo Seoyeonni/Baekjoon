@@ -33,9 +33,8 @@ public class Main {
 
 		// 가로
 		for (int r = 0; r < N; r++) {
-			if (judgRoad(map[r])) {
+			if (isValidRoad(map[r]))
 				count++;
-			}
 		}
 
 		// 세로
@@ -44,63 +43,47 @@ public class Main {
 			for (int r = 0; r < N; r++) {
 				arr[r] = map[r][c];
 			}
-			if (judgRoad(arr)) {
+			if (isValidRoad(arr))
 				count++;
-			}
 		}
 
 		System.out.println(count);
 	} // end of countRoad()
 
-	static boolean judgRoad(int[] road) {
-		int count = 1;
-		for (int i = 1; i < N; i++) {
+	static boolean isValidRoad(int[] road) {
+		boolean[] visited = new boolean[N]; // 경사로 설치 여부
+
+		for (int i = 0; i < N - 1; i++) {
+			int diff = road[i] - road[i + 1];
+
 			// 높이가 같다면
-			if (road[i] - road[i - 1] == 0) {
-				count++;
-			}
-			// 높이가 1 높아졌다면
-			else if (road[i] - road[i - 1] == 1) {
-				// 경사로를 놓을 수 있다면
-				if (count >= L) {
-					count = 1;
-				}
-				// 경사로를 놓을 수 없다면
-				else
-					return false;
-			}
-			// 높이가 1 낮아졌다면
-			else if (road[i] - road[i - 1] == -1) {
-				int tempCount = 0;
-				int j;
-				for (j = i; j < N; j++) {
-					// 경사로를 놓을 높이가 같다면
-					if (road[i] == road[j]) {
-						tempCount++;
-					}
-					// 경사로를 놓을 높이가 다르다면
-					else {
-						break;
-					}
+			if (diff == 0)
+				continue;
 
-					// 경사로를 놓을 수 있다면
-					if (tempCount == L) {
-						break;
-					}
+			// 높이가 1 감소한다면
+			if (diff == 1) {
+				// 높이가 감소한 칸부터 경사로 크기 만큼
+				for (int j = i + 1; j <= i + L; j++) {
+					// 범위를 벗어나거나 높이가 다르다면
+					if (j >= N || road[j] != road[i + 1])
+						return false;
+					visited[j] = true;
 				}
-
-				// 경사로를 놓을 수 있다면
-				if (tempCount == L) {
-					count = 0;
-					i = j;
+			}
+			// 높이가 1 증가한다면
+			else if (diff == -1) {
+				// 높이가 증가한 칸 전부터 경사로 크기 만큼
+				for (int j = i; j > i - L; j--) {
+					// 범위를 벗어나거나 높이가 다르거나 이미 경사로를 놓았다면
+					if (j < 0 || road[j] != road[i] || visited[j])
+						return false;
+					visited[j] = true;
 				}
-				// 경사로를 놓을 수 없다면
-				else
-					return false;
-			} else
+			}
+			// 높이 차이가 1보다 크다면
+			else
 				return false;
 		}
-
 		return true;
 	} // end of judgRoad()
 
