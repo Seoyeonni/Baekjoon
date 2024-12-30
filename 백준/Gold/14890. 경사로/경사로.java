@@ -35,7 +35,6 @@ public class Main {
 		for (int r = 0; r < N; r++) {
 			if (judgRoad(map[r])) {
 				count++;
-//				printArr(map[r]);
 			}
 		}
 
@@ -47,19 +46,11 @@ public class Main {
 			}
 			if (judgRoad(arr)) {
 				count++;
-//				printArr(arr);
 			}
 		}
 
 		System.out.println(count);
 	} // end of countRoad()
-
-	static void printArr(int[] arr) {
-		for (int i = 0; i < N; i++) {
-			System.out.print(arr[i] + " ");
-		}
-		System.out.println();
-	}
 
 	static boolean judgRoad(int[] road) {
 		int count = 1;
