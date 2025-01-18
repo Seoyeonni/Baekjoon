@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -14,8 +13,6 @@ public class Main {
 	static int[] dr = { -1, 0, 0, 1 };
 	static int[] dc = { 0, -1, 1, 0 };
 	static int curId = 0;
-	static boolean[][] visited;
-	static Queue<int[]> q = new LinkedList<>();
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -52,8 +49,6 @@ public class Main {
 			map[startR][startC] = id;
 		}
 
-		visited = new boolean[N + 1][N + 1];
-
 		System.out.println(getAns());
 	} // end of main()
 
@@ -71,7 +66,6 @@ public class Main {
 			// 연료가 바닥났다면
 			if (fuel <= 0) // 0 이하면 목적지로 이동할 수 없음
 				return -1; // 운행 종료
-//			System.out.println(curId + "번 승객까지 이동 거리: " + dist + ", 연료: " + fuel); // 디버깅
 
 			dist = getEndDist();
 			// 승객 목적지로 갈 수 없다면
@@ -85,10 +79,7 @@ public class Main {
 			// 연료가 바닥났다면
 			if (fuel < 0) // 승객을 목적지로 이동시킨 동시에 연료가 바닥나는 경우 제외
 				return -1; // 운행 종료
-//			System.out.println(curId + "번 승객 목적지까지 이동 거리: " + dist + ", 연료: " + fuel); // 디버깅
 			fuel += dist * 2; // 연료 충전
-//			System.out.println("연료: " + fuel); // 디버깅
-//			System.out.println(); // 디버깅
 		}
 
 		return fuel;
@@ -102,12 +93,10 @@ public class Main {
 			return 0; // 거리 반환
 		}
 
+		Queue<int[]> q = new LinkedList<>();
 		q.offer(new int[] { taxiR, taxiC, 0 });
 
-		// 방문 표시 배열 초기화
-		for (int r = 1; r <= N; r++) {
-			Arrays.fill(visited[r], false);
-		}
+		boolean[][] visited = new boolean[N + 1][N + 1];
 		visited[taxiR][taxiC] = true; // 방문 표시
 
 		int id = 0;
@@ -149,7 +138,6 @@ public class Main {
 					
 					// 모든 승객을 다 찾았다면
 					if (count == alive) {
-						q.clear();
 						curId = id;
 						map[r][c] = 0; // 빈칸 설정
 						return dist; // 거리 반환
@@ -165,12 +153,10 @@ public class Main {
 	} // end of getStartDist()
 
 	static int getEndDist() {
+		Queue<int[]> q = new LinkedList<>();
 		q.offer(new int[] { taxiR, taxiC, 0 });
 
-		// 방문 표시 배열 초기화
-		for (int r = 1; r <= N; r++) {
-			Arrays.fill(visited[r], false);
-		}
+		boolean[][] visited = new boolean[N + 1][N + 1];
 		visited[taxiR][taxiC] = true; // 방문 표시
 
 		while (!q.isEmpty()) {
@@ -185,10 +171,8 @@ public class Main {
 					continue; // 넘어감
 
 				// 목적지라면
-				if (nr == passengers[curId].endR && nc == passengers[curId].endC) {
-					q.clear();
+				if (nr == passengers[curId].endR && nc == passengers[curId].endC)
 					return node[2] + 1; // 거리 반환
-				}
 
 				visited[nr][nc] = true; // 방문 표시
 				q.offer(new int[] { nr, nc, node[2] + 1 });
