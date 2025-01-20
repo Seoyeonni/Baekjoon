@@ -48,6 +48,7 @@ public class Main {
 		System.out.println(min > 10 ? -1 : min);
 	} // end of main()
 	
+	// dfs
 	static void move(int crx, int cry, int cbx, int cby, int count) {
 		// 10번 넘게 움직였다면
 		if (count > 10)
@@ -80,7 +81,7 @@ public class Main {
 				}
 			}
 			
-			// 빨간 구슬이 움직이려는 곳에 파란 구슬이 있다면
+			// 빨간 구슬이 움직이려는 곳에 움직이지 못한 파란 구슬이 있다면
 			if (!bmove && nrx == cbx && nry == cby) {
 				// 전칸까지만 움직임
 				nrx = nrx - dx[d];
@@ -90,7 +91,7 @@ public class Main {
 				if (nrx == crx && nry == cry)
 					continue; // 넘어감
 			}
-			// 파란 구슬이 움직이려는 곳에 빨간 구슬이 있다면
+			// 파란 구슬이 움직이려는 곳에 움직이지 못한 빨간 구슬이 있다면
 			if (!rmove && nbx == crx && nby == cry) {
 				// 전칸까지만 움직임
 				nbx = nbx - dx[d];
@@ -102,18 +103,17 @@ public class Main {
 			}
 			// 모든 구슬이 같은 칸으로 움직인다면
 			if (rmove && bmove && nrx == nbx && nry == nby) {
-				// 파란 구슬이 구멍에 빠진다면
-				if (goal(d, cbx, cby, nbx, nby))
-					continue; // 넘어감
-				
 				if ((d == 0 && crx < cbx) || (d == 1 && cry > cby) ||
 						(d == 2 && crx > cbx) || (d == 3 && cry < cby)) {
-					// 전칸까지만 움직임
+					// 파란 구슬이 구멍에 빠진다면
+					if (goal(d, cbx, cby, nbx, nby))
+						continue; // 넘어감
+					// 파란 구슬이 전칸까지만 움직임
 					nbx = nbx - dx[d];
 					nby = nby - dy[d];
 				}
 				else {
-					// 전칸까지만 움직임
+					// 빨간 구슬이 전칸까지만 움직임
 					nrx = nrx - dx[d];
 					nry = nry - dy[d];
 				}
