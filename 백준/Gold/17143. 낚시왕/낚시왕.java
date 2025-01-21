@@ -64,9 +64,16 @@ public class Main {
 			if (!shark.alive)
 				continue; // 넘어감
 			
+			// 속력 조절
+			int s = shark.s;
+			if (shark.d == 1 || shark.d == 2)
+				s %= (R - 1) * 2;
+			else
+				s %= (C - 1) * 2;
+			
 			int nr = shark.r;
 			int nc = shark.c;
-			for (int i = 0; i < shark.s; i++) {
+			for (int i = 0; i < s; i++) {
 				nr = nr + dr[shark.d];
 				nc = nc + dc[shark.d];
 				
