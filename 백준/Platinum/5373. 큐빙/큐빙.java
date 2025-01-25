@@ -71,53 +71,53 @@ public class Main {
 			break;
 		}
 	} // end of turnCube()
-	
-	private static void turnCube(int f, int u, int l, int d, int r, char dir) {
-        char[][] temp1 = new char[3][3];
-        char[] temp2 = new char[3];
 
-        // 시계 방향
-        if (dir == '+') {
-        	// 앞면 회전
-            for (int i=0; i<3; ++i)
-                for (int j=0; j<3; ++j) {
-                    temp1[i][j] = cube[f][2-j][i];
-                }
-            // 윗면 회전
-            for (int i=0; i<3; ++i)
-                temp2[i] = cube[u][i][0];
-            for (int i=0; i<3; ++i)
-                cube[u][i][0] = cube[l][0][2-i];
-            for (int i=0; i<3; ++i)
-                cube[l][0][2-i] = cube[d][2][i];
-            for (int i=0; i<3; ++i)
-                cube[d][2][i] = cube[r][2-i][2];
-            for (int i=0; i<3; ++i)
-                cube[r][2-i][2] = temp2[i];
-        }
-        // 반시계 방향
-        else {
-        	// 앞면 회전
-            for (int i=0; i<3; ++i)
-                for (int j=0; j<3; ++j) {
-                    temp1[i][j] = cube[f][j][2-i];
-                }
-            // 윗면 회전
-            for (int i=0; i<3; ++i)
-                temp2[i] = cube[u][i][0];
-            for (int i=0; i<3; ++i)
-                cube[u][i][0] = cube[r][2-i][2];
-            for (int i=0; i<3; ++i)
-                cube[r][2-i][2] = cube[d][2][i];
-            for (int i=0; i<3; ++i)
-                cube[d][2][i] = cube[l][0][2-i];
-            for (int i=0; i<3; ++i)
-                cube[l][0][2-i] = temp2[i];
-        }
-        
-        cube[f] = temp1;
-    } // end of turnCube()
-	
+	private static void turnCube(int f, int u, int l, int d, int r, char dir) {
+		char[][] temp1 = new char[3][3];
+		char[] temp2 = new char[3];
+
+		// 시계 방향
+		if (dir == '+') {
+			// 앞면 회전
+			for (int i = 0; i < 3; i++)
+				for (int j = 0; j < 3; ++j) {
+					temp1[j][2 - i] = cube[f][i][j];
+				}
+			// 옆면 회전
+			for (int i = 0; i < 3; ++i)
+				temp2[i] = cube[u][i][0];
+			for (int i = 0; i < 3; ++i)
+				cube[u][i][0] = cube[l][0][2 - i];
+			for (int i = 0; i < 3; ++i)
+				cube[l][0][2 - i] = cube[d][2][i];
+			for (int i = 0; i < 3; ++i)
+				cube[d][2][i] = cube[r][2 - i][2];
+			for (int i = 0; i < 3; ++i)
+				cube[r][2 - i][2] = temp2[i];
+		}
+		// 반시계 방향
+		else {
+			// 앞면 회전
+			for (int i = 0; i < 3; i++)
+				for (int j = 0; j < 3; ++j) {
+					temp1[2- j][i] = cube[f][i][j];
+				}
+			// 옆면 회전
+			for (int i = 0; i < 3; ++i)
+				temp2[i] = cube[u][i][0];
+			for (int i = 0; i < 3; ++i)
+				cube[u][i][0] = cube[r][2 - i][2];
+			for (int i = 0; i < 3; ++i)
+				cube[r][2 - i][2] = cube[d][2][i];
+			for (int i = 0; i < 3; ++i)
+				cube[d][2][i] = cube[l][0][2 - i];
+			for (int i = 0; i < 3; ++i)
+				cube[l][0][2 - i] = temp2[i];
+		}
+
+		cube[f] = temp1;
+	} // end of turnCube()
+
 	static void initCube() {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -133,7 +133,7 @@ public class Main {
 				System.out.print(cube[U][j][2 - i]);
 			System.out.println();
 		}
-		
+
 //		for (int i = 0; i < 3; i++) {
 //			for (int j = 0; j < 3; j++)
 //				System.out.print(cube[4][i][j]);
