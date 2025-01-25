@@ -84,15 +84,15 @@ public class Main {
 					temp1[j][2 - i] = cube[f][i][j];
 				}
 			// 옆면 회전
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 3; i++)
 				temp2[i] = cube[u][i][0];
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 3; i++)
 				cube[u][i][0] = cube[l][0][2 - i];
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 3; i++)
 				cube[l][0][2 - i] = cube[d][2][i];
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 3; i++)
 				cube[d][2][i] = cube[r][2 - i][2];
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 3; i++)
 				cube[r][2 - i][2] = temp2[i];
 		}
 		// 반시계 방향
@@ -103,15 +103,15 @@ public class Main {
 					temp1[2- j][i] = cube[f][i][j];
 				}
 			// 옆면 회전
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 3; i++)
 				temp2[i] = cube[u][i][0];
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 3; i++)
 				cube[u][i][0] = cube[r][2 - i][2];
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 3; i++)
 				cube[r][2 - i][2] = cube[d][2][i];
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 3; i++)
 				cube[d][2][i] = cube[l][0][2 - i];
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 3; i++)
 				cube[l][0][2 - i] = temp2[i];
 		}
 
@@ -133,12 +133,6 @@ public class Main {
 				System.out.print(cube[U][j][2 - i]);
 			System.out.println();
 		}
-
-//		for (int i = 0; i < 3; i++) {
-//			for (int j = 0; j < 3; j++)
-//				System.out.print(cube[4][i][j]);
-//			System.out.println();
-//		}
 	} // end of printUpside()
 
 } // end of Main
